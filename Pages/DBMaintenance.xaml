@@ -1,0 +1,106 @@
+<Page x:Class="VRCLogManager.Pages.DBMaintenance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DBMaintenance">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Black"
+                    BorderThickness="1,1,0,0"/>
+            <Border Grid.Row="1"
+                    BorderBrush="Black"
+                    BorderThickness="1,1,0,0"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="ロード"
+                        Margin="4,4,4,4"
+                        Click="OnClick_Load"
+                        IsEnabled="{Binding LoadEnable}"/>
+                <Button Grid.Column="2"
+                        Content="戻る"
+                        Margin="4,4,4,4"
+                        Click="OnClick_Back"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="4"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black"
+                        BorderThickness="1,1,1,0"/>
+                <Border Grid.Column="2"
+                        BorderBrush="Black"
+                        BorderThickness="1,1,0,0"/>
+                <ListBox ItemsSource="{Binding TableLists, Mode=Twoway}"
+                        SelectedItem="{Binding SelectedItem, Mode=Twoway}"
+                        SelectedIndex="{Binding SelectedIndex, Mode=Twoway}"
+                        SelectionChanged="List_SelectionChanged"/>
+                <ListView Grid.Column="2"
+                          ItemsSource="{Binding DBDataRecords, Mode=OneWay}">
+                    <ListView.View>
+                        <GridView x:Name="gridViewDB">
+                            <GridViewColumn DisplayMemberBinding="{Binding Column1}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column1, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column2}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column2, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column3}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column3, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column4}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column4, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column5}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column5, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column6}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column6, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column7}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column7, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column8}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column8, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column9}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column9, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Column10}" Width="80">
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="{Binding DBDataColumn.Column10, Mode=OneWay}"/>
+                                </GridViewColumn.Header>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
