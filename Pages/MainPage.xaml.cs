@@ -1,12 +1,13 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace VRCLogManager.Pages
 {
-    public partial class MainPage : System.Windows.Controls.Page
+    public partial class MainPage : Page
     {
-        private BD_MainPage bd = new BD_MainPage();
+        public BD_MainPage bd = new BD_MainPage();
 
         private string? bufPlayerName;
         private string? bufWorldName;
@@ -21,6 +22,9 @@ namespace VRCLogManager.Pages
         {
             //バインドデータセット
             DataContext = bd;
+
+            //バインドのイベントを登録
+            bd.PropertyChanged += BD_PropertyChanged;
 
             //プレイヤーリストの初期化
             bd.PlayerList = DB.GetPlayerDatas();
@@ -40,15 +44,39 @@ namespace VRCLogManager.Pages
             if (buf != null)
             {
                 bufPlayerName = buf.PlayerName;
-                bd.PlayerID = buf.PlayerID;
+                bd.PlayerName = buf.PlayerName;
             }
         }
 
-        private void cmbPlayer_KeyDown(object sender, RoutedEventArgs e)
+        private void BD_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (bufPlayerName != bd.PlayerName)
+            if (e.PropertyName == "PlayerName")
             {
-                bd.PlayerID = "";
+                if (bufPlayerName != bd.PlayerName)
+                {
+                    bd.PlayerID = "";
+                }
+                else
+                {
+                    if (bd.SelectedItem_Player != null)
+                    {
+                        bd.PlayerID = bd.SelectedItem_Player.PlayerID;
+                    }
+                }
+            }
+            else if (e.PropertyName == "WorldName")
+            {
+                if (bufWorldName != bd.WorldName)
+                {
+                    bd.WorldID = "";
+                }
+                else
+                {
+                    if (bd.SelectedItem_World != null)
+                    {
+                        bd.WorldID = bd.SelectedItem_World.WorldID;
+                    }
+                }
             }
         }
 
@@ -58,15 +86,7 @@ namespace VRCLogManager.Pages
             if (buf != null)
             {
                 bufWorldName = buf.WorldName;
-                bd.WorldID = buf.WorldID;
-            }
-        }
-
-        private void cmbWorld_KeyDown(object sender, RoutedEventArgs e)
-        {
-            if (bufWorldName != bd.WorldName)
-            {
-                bd.WorldID = "";
+                bd.WorldName = buf.WorldName;
             }
         }
 

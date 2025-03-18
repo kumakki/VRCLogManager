@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reflection.Metadata;
+using VRCLogManager.Pages;
 
 namespace VRCLogManager;
 

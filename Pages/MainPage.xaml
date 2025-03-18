@@ -106,9 +106,9 @@
                   ItemsSource="{Binding PlayerList, Mode=Twoway}"
                   SelectedItem="{Binding SelectedItem_Player, Mode=Twoway}"
                   SelectedValuePath="PlayerID"
-                  Text=""
-                  SelectionChanged="cmbPlayer_SelectionChanged"
-                  KeyDown="cmbPlayer_KeyDown" />
+                  Text="{Binding PlayerName, Mode=Twoway}"
+                  IsTextSearchEnabled="False"
+                  SelectionChanged="cmbPlayer_SelectionChanged" />
         <TextBox Grid.Row="5"
                  Margin="2,2,2,2"
                  VerticalContentAlignment="Center"
@@ -130,15 +130,24 @@
                     Content="完全一致"
                     IsChecked="{Binding WorldExtraMatch, Mode=Twoway}" />
         </Grid>
-        <ComboBox Grid.Row="8"
+        <ComboBox Name="cmbWorld"
+                  Grid.Row="8"
                   Margin="2,2,2,2"
+                  DisplayMemberPath="WorldName"
                   IsEditable="true"
-                  ItemsSource="{Binding WorldList.WorldName}"
-                  Text="{Binding WorldName, Mode=Twoway}" />
+                  ItemsSource="{Binding WorldList, Mode=Twoway}"
+                  SelectedItem="{Binding SelectedItem_World, Mode=Twoway}"
+                  SelectedValuePath="WorldID"
+                  Text="{Binding WorldName, Mode=Twoway}"
+                  IsTextSearchEnabled="False"
+                  SelectionChanged="cmbWorld_SelectionChanged" />
         <TextBox Grid.Row="9"
                  Margin="2,2,2,2"
+                 VerticalContentAlignment="Center"
+                 FontSize="11.5"
+                 FontFamily="ＭＳ ゴシック"
                  IsReadOnly="True"
-                 Text="{Binding WorldID}" />
+                 Text="{Binding WorldID, Mode=Twoway}" />
       </Grid>
     </Grid>
   </Grid>
