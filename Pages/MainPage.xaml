@@ -21,7 +21,7 @@
       <Button Grid.Column="1"
               Margin="4,4,4,4"
               Click="OnClick_DB"
-              Content="DBメンテ" />
+              Content="DB管理" />
     </Grid>
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
