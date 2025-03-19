@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using VRCLogManager.Pages;
 
@@ -45,12 +44,69 @@ public partial class MainWindow : Window
         DateTime nowTime = DateTime.Now;
         if (lastTime.Hour < nowTime.Hour)   //毎時間実行
         {
-            
+            LogCopy();
         }
 
         if (lastTime.Hour == 5 && nowTime.Hour == 6)    //朝6時のみ実行
         {
-            
+
         }
+    }
+
+    private void LogCopy()
+    {
+        //VRChatフォルダーを見てファイル一覧を取得
+        string[] files =  Directory.GetFiles(MST.locallow + "\\VRChat\\VRChat\\");
+
+        //コピー先存在チェック
+        string dir = MST.vlmLocal + "\\LogData\\Done\\";
+        if (Directory.Exists(dir) == false)
+        {
+            //無かったら作る
+            Directory.CreateDirectory(dir);
+        }
+
+        //ログファイルならコピー
+        foreach (string file in files)
+        {
+            if (CheckLogFile(file))
+            {
+                try
+                {
+                    //移動できるなら移動する
+                    File.Move(file, MST.vlmLocal + "\\LogData\\" + Path.GetFileName(file));
+                }
+                catch
+                {
+                    //だめならまだVRChatが掴んでるので一旦放置
+                }
+            }
+        }
+
+    }
+
+    private bool CheckLogFile(string file)      //ログファイルかどうかを判定
+    {
+        if (Path.GetExtension(file) != ".txt")
+        {
+            return false;
+        }
+        else if (Path.GetFileNameWithoutExtension(file).Length < 11)
+        {
+            return false;
+        }
+        else if (Path.GetFileNameWithoutExtension(file).Substring(0, 10) == "output_log")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void LogImport()
+    {
+
     }
 }
