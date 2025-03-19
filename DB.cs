@@ -11,39 +11,32 @@ namespace VRCLogManager;
 
 public static class DB
 {
-    static string roaming = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-    static string dbFolder = roaming + "\\VRCLogManager";
-    static string dbFile = dbFolder + "\\VRCLogManager.db";
-    static string connectionString = "Data Source=" + dbFile;
-    static string createTable_JoinLeave = "CREATE TABLE IF NOT EXISTS JoinLeave (ID int, PlayerID text, JoinLeave int, WorldID text, LogDate int, LogTime int, PRIMARY KEY (ID))";
-    static string createTable_World = "CREATE TABLE IF NOT EXISTS World (ID text, Name text, Number int)";
-    static string createTable_Player = "CREATE TABLE IF NOT EXISTS Player (ID text, Name text, Number int)";
-    static string createTable_MyAccount = "CREATE TABLE IF NOT EXISTS MyAccount (ID text, Name text, Number int)";
+    static string connectionString = MST.connectionString;
 
     public static void DBCheck()
     {
         //DBの存在を確認、無ければテーブルとともに作成
 
         //フォルダー存在チェック
-        if (Directory.Exists(dbFolder) == false)
+        if (Directory.Exists(MST.vlmLocal) == false)
         {
             //無かったら作成
-            Directory.CreateDirectory(dbFolder);
+            Directory.CreateDirectory(MST.vlmLocal);
         }
 
         //DB存在チェック、無かったら作る
-        using (var connection = new SqliteConnection(connectionString))
+        using (var connection = new SqliteConnection(MST.connectionString))
         {
             connection.Open();
             SqliteCommand command = new SqliteCommand();
             command.Connection = connection;
-            command.CommandText = createTable_JoinLeave;
+            command.CommandText = MST.createTable_JoinLeave;
             command.ExecuteNonQuery();
-            command.CommandText = createTable_World;
+            command.CommandText = MST.createTable_World;
             command.ExecuteNonQuery();
-            command.CommandText = createTable_Player;
+            command.CommandText = MST.createTable_Player;
             command.ExecuteNonQuery();
-            command.CommandText = createTable_MyAccount;
+            command.CommandText = MST.createTable_MyAccount;
             command.ExecuteNonQuery();
             connection.Close();
         }
