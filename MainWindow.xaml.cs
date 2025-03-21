@@ -38,6 +38,7 @@ public partial class MainWindow : Window
         timer.Interval = new TimeSpan(1000);
         timer.Tick += new EventHandler(TimerRun);
         timer.Start();
+        DB.AllTruncateTables();
         LogImport();
     }
 
@@ -149,7 +150,7 @@ public partial class MainWindow : Window
                     index = line.IndexOf("Unpacking World");
                     if (index != -1)
                     {
-                        nowWorldID = line.Substring(index + 17, 40);
+                        nowWorldID = line.Substring(index + 17, 41);
                         flgWorldID = true;
                         if (flgWorldID && flgWorldName)
                         {
@@ -178,13 +179,11 @@ public partial class MainWindow : Window
                     {
                         string bufID = line.Substring(line.Length - 41, 40);
                         string bufName = line.Substring(index + 27, line.Length - 43 - (index + 27));
-                        
                         int logDate = Int32.Parse(line.Substring(0, 4) + line.Substring(5, 2) + line.Substring(8, 2));
                         int logTime = Int32.Parse(line.Substring(11, 2) + line.Substring(14, 2) + line.Substring(17, 2));
-                        
 
                         DB.SetData(bufID, bufName, 1);
-                        DB.SetJoinLeave(bufID, 0, nowWorldID);
+                        DB.SetJoinLeave(bufID, 0, nowWorldID, logDate, logTime, myUserID);
                     }
 
                     //プレイヤーのLeaveチェック
@@ -192,8 +191,10 @@ public partial class MainWindow : Window
                     if (index != -1)
                     {
                         string bufID = line.Substring(line.Length - 41, 40);
-                        string bufName = line.Substring(index + 25, line.Length - 43 - (index + 25));
-                        DB.SetJoinLeave(bufID, 1, nowWorldID);
+                        int logDate = Int32.Parse(line.Substring(0, 4) + line.Substring(5, 2) + line.Substring(8, 2));
+                        int logTime = Int32.Parse(line.Substring(11, 2) + line.Substring(14, 2) + line.Substring(17, 2));
+
+                        DB.SetJoinLeave(bufID, 1, nowWorldID, logDate, logTime, myUserID);
                     }
 
                 }
