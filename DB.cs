@@ -359,6 +359,25 @@ public static class DB
             connection.Open();
             SqliteCommand command = new SqliteCommand();
             command.Connection = connection;
+            command.CommandText = "SELECT * FROM JoinLeave WHERE PlayerID = @playerid AND JoinLeave = @joinleave AND WorldID = @worldid AND "
+                                + "LogDate = @logdate AND LogTime = @logtime AND AccountID = @accountid";
+            command.Parameters.AddWithValue("@playerid", playerID);
+            command.Parameters.AddWithValue("@joinleave", joinleave);
+            command.Parameters.AddWithValue("@worldid", worldID);
+            command.Parameters.AddWithValue("@logdate", logDate);
+            command.Parameters.AddWithValue("@logtime", logTime);
+            command.Parameters.AddWithValue("@accountid", userID);
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    //全く同じデータがすでにあったら追加しない
+                    return;
+                }
+            }
+            
+            command = new SqliteCommand();
+            command.Connection = connection;
             command.CommandText = "INSERT INTO JoinLeave (PlayerID, JoinLeave, WorldID, LogDate, LogTime, AccountID) VALUES (@playerid, @joinleave, @worldid, @logdate, @logtime, @accountid)";
             command.Parameters.AddWithValue("@playerid", playerID);
             command.Parameters.AddWithValue("@joinleave", joinleave);
@@ -389,7 +408,7 @@ public static class DB
             command.ExecuteNonQuery();
 
             connection.Close();
-        } 
+        }
     }
 }
 

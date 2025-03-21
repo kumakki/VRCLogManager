@@ -38,7 +38,7 @@ public partial class MainWindow : Window
         timer.Interval = new TimeSpan(1000);
         timer.Tick += new EventHandler(TimerRun);
         timer.Start();
-        DB.AllTruncateTables();
+        //DB.AllTruncateTables();
         LogImport();
     }
 
