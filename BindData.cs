@@ -115,16 +115,16 @@ public class BD_MainPage : INotifyPropertyChanged
     }
   }
   
-  private string? _UserName;
-  public string? UserName
+  private string? _AccountName;
+  public string? AccountName
   {
-    get { return _UserName; }
+    get { return _AccountName; }
     set
     {
-      if (_UserName != value)
+      if (_AccountName != value)
       {
-        _UserName = value;
-        OnPropertyChanged(nameof(UserName));
+        _AccountName = value;
+        OnPropertyChanged(nameof(AccountName));
       }
     }
   }
@@ -185,6 +185,20 @@ public class BD_MainPage : INotifyPropertyChanged
     }
   }
   
+  private ObservableCollection<AccountData>? _AccountList;
+  public ObservableCollection<AccountData>? AccountList
+  {
+    get { return _AccountList; }
+    set
+    {
+      if (_AccountList != value)
+      {
+        _AccountList = value;
+        OnPropertyChanged(nameof(AccountList));
+      }
+    }
+  }
+  
   private PlayerData? _SelectedItem_Player;
   public PlayerData? SelectedItem_Player
   {
@@ -209,6 +223,34 @@ public class BD_MainPage : INotifyPropertyChanged
       {
         _SelectedItem_World = value;
         OnPropertyChanged(nameof(SelectedItem_World));
+      }
+    }
+  }
+  
+  private AccountData? _SelectedItem_Account;
+  public AccountData? SelectedItem_Account
+  {
+    get { return _SelectedItem_Account; }
+    set
+    {
+      if (_SelectedItem_Account != value)
+      {
+        _SelectedItem_Account = value;
+        OnPropertyChanged(nameof(SelectedItem_Account));
+      }
+    }
+  }
+  
+  private int? _SelectedIndex_Account;
+  public int? SelectedIndex_Account
+  {
+    get { return _SelectedIndex_Account; }
+    set
+    {
+      if (_SelectedIndex_Account != value)
+      {
+        _SelectedIndex_Account = value;
+        OnPropertyChanged(nameof(SelectedIndex_Account));
       }
     }
   }
@@ -393,6 +435,44 @@ public class WorldData : INotifyPropertyChanged
       {
         _WorldName = value;
         OnPropertyChanged(nameof(WorldName));
+      }
+    }
+  }
+
+  public event PropertyChangedEventHandler? PropertyChanged;
+
+  protected virtual void OnPropertyChanged(string propertyName)
+  {
+    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+  }
+}
+
+public class AccountData : INotifyPropertyChanged
+{
+  private string? _AccountID;
+  public string? AccountID
+  {
+    get { return _AccountID; }
+    set
+    {
+      if (_AccountID!= value)
+      {
+        _AccountID = value;
+        OnPropertyChanged(nameof(AccountID));
+      }
+    }
+  }
+
+  private string? _AccountName;
+  public string? AccountName
+  {
+    get { return _AccountName; }
+    set
+    {
+      if (_AccountName != value)
+      {
+        _AccountName = value;
+        OnPropertyChanged(nameof(AccountName));
       }
     }
   }

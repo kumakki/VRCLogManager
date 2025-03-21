@@ -24,23 +24,15 @@
                    VerticalAlignment="Center"
                    FontSize="14"
                    Text="アカウント" />
-        <ComboBox Margin="2,4,2,4"
-                  Width="100"
-                  DisplayMemberPath="PlayerName"
-                  IsEditable="true"
+        <ComboBox Width="150"
+                  Margin="2,4,2,4"
+                  DisplayMemberPath="AccountName"
                   IsTextSearchEnabled="False"
-                  ItemsSource="{Binding PlayerList, Mode=Twoway}"
-                  SelectedItem="{Binding SelectedItem_Player, Mode=Twoway}"
-                  SelectedValuePath="PlayerID"
-                  SelectionChanged="cmbPlayer_SelectionChanged"
-                  Text="{Binding PlayerName, Mode=Twoway}" />
-        <CheckBox Margin="4,4,4,4"
-                  VerticalAlignment="Center"
-                  Click="OnClick_ShowID"
-                  Content="ID表示"
-                  FontSize="14"
-                  IsChecked="{Binding ShowID, Mode=Twoway}" />
-
+                  ItemsSource="{Binding AccountList, Mode=Twoway}"
+                  SelectedIndex="{Binding SelectedIndex_Account, Mode=Twoway}"
+                  SelectedItem="{Binding SelectedItem_Account, Mode=Twoway}"
+                  SelectedValuePath="AccountID"
+                  Text="{Binding AccountName, Mode=Twoway}" />
       </StackPanel>
       <Button Grid.Column="3"
               Margin="4,4,4,4"
@@ -67,6 +59,7 @@
           <RowDefinition Height="30" />
           <RowDefinition Height="20" />
           <RowDefinition Height="4" />
+          <RowDefinition Height="30" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid>
@@ -172,6 +165,13 @@
                  FontSize="11.5"
                  IsReadOnly="True"
                  Text="{Binding WorldID, Mode=Twoway}" />
+        <CheckBox Grid.Row="11"
+                  Margin="4,4,4,4"
+                  VerticalAlignment="Center"
+                  Click="OnClick_ShowID"
+                  Content="ID表示"
+                  FontSize="14"
+                  IsChecked="{Binding ShowID, Mode=Twoway}" />
       </Grid>
     </Grid>
   </Grid>

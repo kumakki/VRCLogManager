@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -31,6 +32,11 @@ namespace VRCLogManager.Pages
 
             //ワールドリストの初期化
             bd.WorldList = DB.GetWorldDatas();
+
+            //アカウントリストの初期化
+            bd.AccountList = DB.GetAccountDatas();
+            bd.AccountList.Insert(0, new AccountData(){ AccountID = "", AccountName = "全アカウント"});
+            bd.SelectedIndex_Account = 0;
         }
 
         private void OnClick_DB(object sender, RoutedEventArgs e)

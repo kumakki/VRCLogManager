@@ -286,6 +286,28 @@ public static class DB
         return buf;
     }
 
+    public static ObservableCollection<AccountData> GetAccountDatas()
+    {
+        ObservableCollection<AccountData> buf = new ObservableCollection<AccountData>();
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "SELECT ID, Name, MAX(Number) FROM MyAccount GROUP BY ID ORDER BY Name";
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    buf.Add(new AccountData() { AccountID = reader.GetString(0), AccountName = reader.GetString(1) });
+                }
+            }
+            connection.Close();
+        }
+        return buf;
+    }
+
     public static void SetData(string id, string name, int type)
     {
         string dataType = "";
