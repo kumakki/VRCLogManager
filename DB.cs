@@ -389,6 +389,34 @@ public static class DB
             connection.Close();
         }
     }
+
+    public static void AllTruncateTables()
+    {
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "DELETE FROM JoinLeave";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM MyAccount";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM Player";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM World";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'JoinLeave'";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'MyAccount'";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'Player'";
+            command.ExecuteNonQuery();
+            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'World'";
+            command.ExecuteNonQuery();
+
+            connection.Close();
+        } 
+    }
 }
 
 public class DBDataRecord : INotifyPropertyChanged
