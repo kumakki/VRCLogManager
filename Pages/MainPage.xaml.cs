@@ -90,6 +90,11 @@ namespace VRCLogManager.Pages
             }
         }
 
+        private void OnClick_ShowID(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void datePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
 

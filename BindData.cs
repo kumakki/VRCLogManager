@@ -115,6 +115,20 @@ public class BD_MainPage : INotifyPropertyChanged
     }
   }
   
+  private string? _UserName;
+  public string? UserName
+  {
+    get { return _UserName; }
+    set
+    {
+      if (_UserName != value)
+      {
+        _UserName = value;
+        OnPropertyChanged(nameof(UserName));
+      }
+    }
+  }
+  
   private string? _PlayerID;
   public string? PlayerID
   {
@@ -195,6 +209,20 @@ public class BD_MainPage : INotifyPropertyChanged
       {
         _SelectedItem_World = value;
         OnPropertyChanged(nameof(SelectedItem_World));
+      }
+    }
+  }
+  
+  private bool _ShowID;
+  public bool ShowID
+  {
+    get { return _ShowID; }
+    set
+    {
+      if (_ShowID != value)
+      {
+        _ShowID = value;
+        OnPropertyChanged(nameof(ShowID));
       }
     }
   }

@@ -352,38 +352,20 @@ public static class DB
         }
     }
 
-    public static void SetJoinLeave(string playerID, int joinleave, string worldID)
+    public static void SetJoinLeave(string playerID, int joinleave, string worldID, int logDate, int logTime, string userID)
     {
         using (var connection = new SqliteConnection(connectionString))
         {
             connection.Open();
             SqliteCommand command = new SqliteCommand();
             command.Connection = connection;
-            command.CommandText = "SELECT MAX(ID) FROM JoinLeave";
-            int maxID = 0;
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    try
-                    {
-                        maxID = reader.GetInt32(0);
-                    }
-                    catch
-                    {
-                    }
-                }
-            }
-            command = new SqliteCommand();
-            command.Connection = connection;
-            command.CommandText = "INSERT INTO JoinLeave (ID, PlayerID, JoinLeave, WorldID, LogDate, LogTime) VALUES (@id, @playerid, @joinleave, @worldid, @logdate, @logtime)";
-            command.Parameters.AddWithValue("@id", maxID + 1);
+            command.CommandText = "INSERT INTO JoinLeave (PlayerID, JoinLeave, WorldID, LogDate, LogTime, AccountID) VALUES (@playerid, @joinleave, @worldid, @logdate, @logtime, @accountid)";
             command.Parameters.AddWithValue("@playerid", playerID);
             command.Parameters.AddWithValue("@joinleave", joinleave);
             command.Parameters.AddWithValue("@worldid", worldID);
-            DateTime now = DateTime.Now;
-            command.Parameters.AddWithValue("@logdate", now.ToString("yyyyMMdd"));
-            command.Parameters.AddWithValue("@logtime", now.ToString("HHmmss"));
+            command.Parameters.AddWithValue("@logdate", logDate);
+            command.Parameters.AddWithValue("@logtime", logTime);
+            command.Parameters.AddWithValue("@accountid", userID);
             command.ExecuteNonQuery();
 
             connection.Close();
