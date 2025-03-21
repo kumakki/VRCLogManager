@@ -59,7 +59,7 @@
           <RowDefinition Height="30" />
           <RowDefinition Height="20" />
           <RowDefinition Height="4" />
-          <RowDefinition Height="30" />
+          <RowDefinition Height="50" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid>
@@ -167,11 +167,17 @@
                  Text="{Binding WorldID, Mode=Twoway}" />
         <CheckBox Grid.Row="11"
                   Margin="4,4,4,4"
-                  VerticalAlignment="Center"
-                  Click="OnClick_ShowID"
+                  VerticalAlignment="Top"
                   Content="ID表示"
                   FontSize="14"
                   IsChecked="{Binding ShowID, Mode=Twoway}" />
+        <Button Grid.Row="11"
+                Margin="4,4,4,4"
+                Width="60"
+                HorizontalAlignment="Right"
+                Click="OnClick_Search"
+                Content="検索"
+                FontSize="14" />
       </Grid>
     </Grid>
   </Grid>

@@ -96,7 +96,7 @@ namespace VRCLogManager.Pages
             }
         }
 
-        private void OnClick_ShowID(object sender, RoutedEventArgs e)
+        private void OnClick_Search(object sender, RoutedEventArgs e)
         {
 
         }
