@@ -285,6 +285,110 @@ public static class DB
         }
         return buf;
     }
+
+    public static void SetData(string id, string name, int type)
+    {
+        string dataType = "";
+        switch (type)
+        {
+            case 0:
+                dataType = "MyAccount";
+                break;
+            case 1:
+                dataType = "Player";
+                break;
+            case 2:
+                dataType = "World";
+                break;
+            default:
+                return;
+        }
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "SELECT ID, Name, Number FROM " + dataType + " WHERE ID = @id ORDER BY Number";
+            command.Parameters.AddWithValue("@id", id);
+            bool hasRecord = false;
+            string bufID = "";
+            string bufName = "";
+            int bufNumber = 0;
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    bufID = reader.GetString(0);
+                    bufName = reader.GetString(1);
+                    bufNumber = reader.GetInt32(2);
+                    hasRecord = true;
+                }
+            }
+
+            if (hasRecord == false)
+            {
+                //データが存在しなければ新規挿入する
+                command = new SqliteCommand();
+                command.Connection = connection;
+                command.CommandText = "INSERT INTO " + dataType + " (ID, Name, Number) VALUES (@id, @name, 0)";
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@name", name);
+                command.ExecuteNonQuery();
+            }
+            else if (bufName != name)
+            {
+                //データが存在し、最終名と違う場合は新規採番し挿入する
+                command = new SqliteCommand();
+                command.Connection = connection;
+                command.CommandText = "INSERT INTO " + dataType + " (ID, Name, Number) VALUES (@id, @name, @number)";
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@number", bufID + 1);
+                command.ExecuteNonQuery();
+            }
+            //データは存在するが最終名と同じ場合は何もしない
+
+            connection.Close();
+        }
+    }
+
+    public static void SetJoinLeave(string playerID, int joinleave, string worldID)
+    {
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "SELECT MAX(ID) FROM JoinLeave";
+            int maxID = 0;
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    try
+                    {
+                        maxID = reader.GetInt32(0);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "INSERT INTO JoinLeave (ID, PlayerID, JoinLeave, WorldID, LogDate, LogTime) VALUES (@id, @playerid, @joinleave, @worldid, @logdate, @logtime)";
+            command.Parameters.AddWithValue("@id", maxID + 1);
+            command.Parameters.AddWithValue("@playerid", playerID);
+            command.Parameters.AddWithValue("@joinleave", joinleave);
+            command.Parameters.AddWithValue("@worldid", worldID);
+            DateTime now = DateTime.Now;
+            command.Parameters.AddWithValue("@logdate", now.ToString("yyyyMMdd"));
+            command.Parameters.AddWithValue("@logtime", now.ToString("HHmmss"));
+            command.ExecuteNonQuery();
+
+            connection.Close();
+        }
+    }
 }
 
 public class DBDataRecord : INotifyPropertyChanged
