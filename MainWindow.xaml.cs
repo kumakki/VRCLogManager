@@ -124,8 +124,8 @@ public partial class MainWindow : Window
                 string[] lines = File.ReadAllLines(logFile);
 
                 //現在のログインユーザーとワールドを保持
-                string myUserID = "";
-                string myUserName = "";
+                string myAccountID = "";
+                string myAccountName = "";
                 string nowWorldID = "";
                 string nowWorldName = "";
                 bool flgWorldID = false;
@@ -139,10 +139,10 @@ public partial class MainWindow : Window
                     index = line.IndexOf("User Authenticated");
                     if (index != -1)
                     {
-                        myUserID = line.Substring(line.Length - 41, 40);
-                        myUserName = line.Substring(index + 20, line.Length - 43 - (index + 20));
+                        myAccountID = line.Substring(line.Length - 41, 40);
+                        myAccountName = line.Substring(index + 20, line.Length - 43 - (index + 20));
 
-                        DB.SetData(myUserID, myUserName, 0);
+                        DB.SetData(myAccountID, myAccountName, 0);
                     }
 
                     //現在のワールドチェック
@@ -183,7 +183,7 @@ public partial class MainWindow : Window
                         int logTime = Int32.Parse(line.Substring(11, 2) + line.Substring(14, 2) + line.Substring(17, 2));
 
                         DB.SetData(bufID, bufName, 1);
-                        DB.SetJoinLeave(bufID, 0, nowWorldID, logDate, logTime, myUserID);
+                        DB.SetJoinLeave(bufID, 0, nowWorldID, logDate, logTime, myAccountID);
                     }
 
                     //プレイヤーのLeaveチェック
@@ -194,7 +194,7 @@ public partial class MainWindow : Window
                         int logDate = Int32.Parse(line.Substring(0, 4) + line.Substring(5, 2) + line.Substring(8, 2));
                         int logTime = Int32.Parse(line.Substring(11, 2) + line.Substring(14, 2) + line.Substring(17, 2));
 
-                        DB.SetJoinLeave(bufID, 1, nowWorldID, logDate, logTime, myUserID);
+                        DB.SetJoinLeave(bufID, 1, nowWorldID, logDate, logTime, myAccountID);
                     }
 
                 }

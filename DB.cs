@@ -352,7 +352,7 @@ public static class DB
         }
     }
 
-    public static void SetJoinLeave(string playerID, int joinleave, string worldID, int logDate, int logTime, string userID)
+    public static void SetJoinLeave(string playerID, int joinleave, string worldID, int logDate, int logTime, string accountID)
     {
         using (var connection = new SqliteConnection(connectionString))
         {
@@ -366,7 +366,7 @@ public static class DB
             command.Parameters.AddWithValue("@worldid", worldID);
             command.Parameters.AddWithValue("@logdate", logDate);
             command.Parameters.AddWithValue("@logtime", logTime);
-            command.Parameters.AddWithValue("@accountid", userID);
+            command.Parameters.AddWithValue("@accountid", accountID);
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -375,7 +375,7 @@ public static class DB
                     return;
                 }
             }
-            
+
             command = new SqliteCommand();
             command.Connection = connection;
             command.CommandText = "INSERT INTO JoinLeave (PlayerID, JoinLeave, WorldID, LogDate, LogTime, AccountID) VALUES (@playerid, @joinleave, @worldid, @logdate, @logtime, @accountid)";
@@ -384,7 +384,7 @@ public static class DB
             command.Parameters.AddWithValue("@worldid", worldID);
             command.Parameters.AddWithValue("@logdate", logDate);
             command.Parameters.AddWithValue("@logtime", logTime);
-            command.Parameters.AddWithValue("@accountid", userID);
+            command.Parameters.AddWithValue("@accountid", accountID);
             command.ExecuteNonQuery();
 
             connection.Close();
