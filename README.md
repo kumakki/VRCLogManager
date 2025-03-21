@@ -15,3 +15,5 @@ VRChatのLogを取得して検索したりするやつ。
 　　・DB内のデータを直で見る機能  
 　・機能  
 　　・ログデータを監視して取込（これが一番大事）  
+
+# [VRCLogManager](https://github.com/kumakki/VRCLogManager)
