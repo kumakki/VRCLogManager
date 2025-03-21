@@ -405,14 +405,6 @@ public static class DB
             command.ExecuteNonQuery();
             command.CommandText = "DELETE FROM World";
             command.ExecuteNonQuery();
-            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'JoinLeave'";
-            command.ExecuteNonQuery();
-            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'MyAccount'";
-            command.ExecuteNonQuery();
-            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'Player'";
-            command.ExecuteNonQuery();
-            command.CommandText = "DELETE FROM sqlite_sequence WHERE name = 'World'";
-            command.ExecuteNonQuery();
 
             connection.Close();
         } 
