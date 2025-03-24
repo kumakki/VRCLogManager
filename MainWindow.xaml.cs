@@ -38,7 +38,6 @@ public partial class MainWindow : Window
         timer.Interval = new TimeSpan(1000);
         timer.Tick += new EventHandler(TimerRun);
         timer.Start();
-        //DB.AllTruncateTables();
         LogImport();
     }
 
@@ -198,6 +197,9 @@ public partial class MainWindow : Window
                     }
 
                 }
+
+                //終わったらログファイルを完了フォルダーへ移動
+                File.Move(logFile, MST.vlmLocal + "\\LogData\\Done\\" + Path.GetFileName(logFile));
             }
         }
     }
