@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:VRCLogManager"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280"
-        Visibility="{Binding WindowVisible, Mode=Twoway, FallbackValue=Visible}">
+        Visibility="{Binding WindowVisible, Mode=Twoway, FallbackValue=Visible}"
+        Closing="OnClosing">
     <Grid>
         <Frame x:Name="Frame1" NavigationUIVisibility="Hidden"/>
     </Grid>

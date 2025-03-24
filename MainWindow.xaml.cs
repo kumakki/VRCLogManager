@@ -41,6 +41,12 @@ public partial class MainWindow : Window
         LogImport();
     }
 
+    private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        bd.WindowVisible = "Hidden";
+        e.Cancel = true;
+    }
+
     private void TimerRun(object? sender, EventArgs e)
     {
         DateTime nowTime = DateTime.Now;
