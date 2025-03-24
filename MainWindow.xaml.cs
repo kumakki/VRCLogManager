@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using VRCLogManager.Pages;
+using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows.Media.Animation;
 
 namespace VRCLogManager;
 
@@ -25,6 +27,8 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        DataContext = bd;
+        bd.WindowVisible = "Hidden";
         InitializeComponent();
         Loaded += wfpLoaded;
     }
@@ -32,19 +36,29 @@ public partial class MainWindow : Window
     private void wfpLoaded(object sender, RoutedEventArgs e)
     {
         DB.DBCheck();
-        DataContext = bd;
         Frame1.Navigate(PageManager.main);
         lastTime = DateTime.Now;
         timer.Interval = new TimeSpan(1000);
         timer.Tick += new EventHandler(TimerRun);
         timer.Start();
         LogImport();
+
     }
 
     private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
         bd.WindowVisible = "Hidden";
         e.Cancel = true;
+    }
+
+    private void OnClick_ShowMenu(object sender, RoutedEventArgs e)
+    {
+        bd.WindowVisible = "Visible";
+    }
+
+    private void OnClick_Exit(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
     }
 
     private void TimerRun(object? sender, EventArgs e)
