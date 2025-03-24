@@ -432,6 +432,202 @@ public static class DB
             connection.Close();
         }
     }
+
+    public static ObservableCollection<JoinLeaveData> SearchJoinLeave(SearchData search)
+    {
+        ObservableCollection<JoinLeaveData> buf = new ObservableCollection<JoinLeaveData>();
+
+        using (var connection = new SqliteConnection(connectionString))
+        {
+            connection.Open();
+            SqliteCommand command = new SqliteCommand();
+            command.Connection = connection;
+            command.CommandText = "SELECT J.AccountID, A.Name, J.PlayerID, P.Name, J.JoinLeave, J.WorldID, W.Name, J.LogDate, J.LogTime "
+                                + "FROM JoinLeave AS J LEFT OUTER JOIN MyAccount AS A ON J.AccountID = A.ID "
+                                + "LEFT OUTER JOIN Player AS P ON J.PlayerID = P.ID LEFT OUTER JOIN World AS W ON J.WorldID = W.ID ";
+
+            //検索用データチェック
+            bool first = true;
+
+            //アカウント
+            //全てじゃないなら条件追加
+            if (search.AccountName != "全アカウント")
+            {
+                command.CommandText += "WHERE AccountID = @accountid ";
+                command.Parameters.AddWithValue("@accountid", search.AccountID);
+                first = false;
+            }
+
+            //開始日付
+            if (search.LogDateStart != null)
+            {
+                if (first)
+                {
+                    command.CommandText += "WHERE LogDate >= @logdatestart ";
+                    command.Parameters.AddWithValue("@logdatestart", search.LogDateStart);
+                    first = false;
+                }
+                else
+                {
+                    command.CommandText += "AND LogDate >= @logdatestart ";
+                    command.Parameters.AddWithValue("@logdatestart", search.LogDateStart);
+                }
+            }
+
+            //終了日付
+            if (search.LogDateEnd != null)
+            {
+                if (first)
+                {
+                    command.CommandText += "WHERE LogDate <= @logdateend ";
+                    command.Parameters.AddWithValue("@logdateend", search.LogDateEnd);
+                    first = false;
+                }
+                else
+                {
+                    command.CommandText += "AND LogDate <= @logdateend ";
+                    command.Parameters.AddWithValue("@logdateend", search.LogDateEnd);
+                }
+            }
+
+            //プレイヤー
+            //IDがあればID検索、なければ完全一致か部分一致で名前検索
+            if (search.PlayerID != null)
+            {
+                if (first)
+                {
+                    command.CommandText += "WHERE PlayerID = @playerid ";
+                    command.Parameters.AddWithValue("@playerid", search.PlayerID);
+                    first = false;
+                }
+                else
+                {
+                    command.CommandText += "AND PlayerID = @playerid ";
+                    command.Parameters.AddWithValue("@playerid", search.PlayerID);
+                }
+            }
+            else if (search.PlayerName != null)
+            {
+                if (search.PlayerExtraMatch)
+                {
+                    if (first)
+                    {
+                        command.CommandText += "WHERE PlayerName = @playername ";
+                        command.Parameters.AddWithValue("@playername", search.PlayerName);
+                        first = false;
+                    }
+                    else
+                    {
+                        command.CommandText += "AND PlayerName = @playername ";
+                        command.Parameters.AddWithValue("@playername", search.PlayerName);
+                    }
+                }
+                else
+                {
+                    if (first)
+                    {
+                        command.CommandText += "WHERE PlayerName LIKE @playername ";
+                        command.Parameters.AddWithValue("@playername", "%" + search.PlayerName + "%");
+                        first = false;
+                    }
+                    else
+                    {
+                        command.CommandText += "AND PlayerName LIKE @playername ";
+                        command.Parameters.AddWithValue("@playername", "%" + search.PlayerName + "%");
+                    }
+                }
+            }
+
+            //ワールド
+            //IDがあればID検索、なければ完全一致か部分一致で名前検索
+            if (search.WorldID != null)
+            {
+                if (first)
+                {
+                    command.CommandText += "WHERE WorldID = @Worldid ";
+                    command.Parameters.AddWithValue("@Worldid", search.WorldID);
+                    first = false;
+                }
+                else
+                {
+                    command.CommandText += "AND WorldID = @Worldid ";
+                    command.Parameters.AddWithValue("@Worldid", search.WorldID);
+                }
+            }
+            else if (search.WorldName != null)
+            {
+                if (search.WorldExtraMatch)
+                {
+                    if (first)
+                    {
+                        command.CommandText += "WHERE WorldName = @worldname ";
+                        command.Parameters.AddWithValue("@worldname", search.WorldName);
+                        first = false;
+                    }
+                    else
+                    {
+                        command.CommandText += "AND WorldName = @worldname ";
+                        command.Parameters.AddWithValue("@worldname", search.WorldName);
+                    }
+                }
+                else
+                {
+                    if (first)
+                    {
+                        command.CommandText += "WHERE WorldName LIKE @worldname ";
+                        command.Parameters.AddWithValue("@worldname", "%" + search.WorldName + "%");
+                        first = false;
+                    }
+                    else
+                    {
+                        command.CommandText += "AND WorldName LIKE @worldname ";
+                        command.Parameters.AddWithValue("@worldname", "%" + search.WorldName + "%");
+                    }
+                }
+            }
+
+            command.CommandText += "ORDER BY LogTime, LogDate";
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    string joinleave = "";
+                    if (reader.GetInt32(4) == 0)
+                    {
+                        joinleave = "Join";
+                    }
+                    else
+                    {
+                        joinleave = "Leave";
+                    }
+                    buf.Add(new JoinLeaveData(){
+                        AccountID = reader.GetString(0),
+                        AccountName = reader.GetString(1),
+                        PlayerID = reader.GetString(2),
+                        PlayerName = reader.GetString(3),
+                        JoinLeave = joinleave,
+                        WorldID = reader.GetString(5),
+                        WorldName = reader.GetString(6),
+                        LogDate = reader.GetInt32(7),
+                        LogTime = reader.GetInt32(8),
+                    });
+                }
+            }
+
+
+
+            connection.Close();
+        }
+
+
+
+
+
+
+
+        return buf;
+    }
 }
 
 public class DBDataRecord : INotifyPropertyChanged
@@ -582,4 +778,19 @@ public class DBDataRecord : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+}
+
+public class SearchData
+{
+    public string? AccountID;
+    public string? AccountName;
+    public string? PlayerID;
+    public string? PlayerName;
+    public bool PlayerExtraMatch;
+    public string? WorldID;
+    public string? WorldName;
+    public bool WorldExtraMatch;
+    public int? LogDateStart;
+    public int? LogDateEnd;
+
 }

@@ -269,6 +269,20 @@ public class BD_MainPage : INotifyPropertyChanged
     }
   }
 
+  private ObservableCollection<JoinLeaveData>? _JoinLeaveList;
+  public ObservableCollection<JoinLeaveData>? JoinLeaveList
+  {
+    get { return _JoinLeaveList; }
+    set
+    {
+      if (_JoinLeaveList != value)
+      {
+        _JoinLeaveList = value;
+        OnPropertyChanged(nameof(JoinLeaveList));
+      }
+    }
+  }
+
   public event PropertyChangedEventHandler? PropertyChanged;
 
   protected virtual void OnPropertyChanged(string propertyName)
@@ -473,6 +487,142 @@ public class AccountData : INotifyPropertyChanged
       {
         _AccountName = value;
         OnPropertyChanged(nameof(AccountName));
+      }
+    }
+  }
+
+  public event PropertyChangedEventHandler? PropertyChanged;
+
+  protected virtual void OnPropertyChanged(string propertyName)
+  {
+    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+  }
+}
+
+public class JoinLeaveData : INotifyPropertyChanged
+{
+  private string? _AccountID;
+  public string? AccountID
+  {
+    get { return _AccountID; }
+    set
+    {
+      if (_AccountID!= value)
+      {
+        _AccountID = value;
+        OnPropertyChanged(nameof(AccountID));
+      }
+    }
+  }
+
+  private string? _AccountName;
+  public string? AccountName
+  {
+    get { return _AccountName; }
+    set
+    {
+      if (_AccountName != value)
+      {
+        _AccountName = value;
+        OnPropertyChanged(nameof(AccountName));
+      }
+    }
+  }
+
+  private string? _PlayerID;
+  public string? PlayerID
+  {
+    get { return _PlayerID; }
+    set
+    {
+      if (_PlayerID != value)
+      {
+        _PlayerID = value;
+        OnPropertyChanged(nameof(PlayerID));
+      }
+    }
+  }
+
+  private string? _PlayerName;
+  public string? PlayerName
+  {
+    get { return _PlayerName; }
+    set
+    {
+      if (_PlayerName != value)
+      {
+        _PlayerName = value;
+        OnPropertyChanged(nameof(PlayerName));
+      }
+    }
+  }
+
+  private string? _WorldID;
+  public string? WorldID
+  {
+    get { return _WorldID; }
+    set
+    {
+      if (_WorldID != value)
+      {
+        _WorldID = value;
+        OnPropertyChanged(nameof(WorldID));
+      }
+    }
+  }
+
+  private string? _WorldName;
+  public string? WorldName
+  {
+    get { return _WorldName; }
+    set
+    {
+      if (_WorldName != value)
+      {
+        _WorldName = value;
+        OnPropertyChanged(nameof(WorldName));
+      }
+    }
+  }
+
+  private string? _JoinLeave;
+  public string? JoinLeave
+  {
+    get { return _JoinLeave; }
+    set
+    {
+      if (_JoinLeave != value)
+      {
+        _JoinLeave = value;
+        OnPropertyChanged(nameof(JoinLeave));
+      }
+    }
+  }
+
+  private int? _LogDate;
+  public int? LogDate
+  {
+    get { return _LogDate; }
+    set
+    {
+      if (_LogDate != value)
+      {
+        _LogDate = value;
+        OnPropertyChanged(nameof(LogDate));
+      }
+    }
+  }
+
+  private int? _LogTime;
+  public int? LogTime
+  {
+    get { return _LogTime; }
+    set
+    {
+      if (_LogTime != value)
+      {
+        _LogTime = value;
+        OnPropertyChanged(nameof(LogTime));
       }
     }
   }

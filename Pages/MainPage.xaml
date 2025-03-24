@@ -33,6 +33,12 @@
                   SelectedItem="{Binding SelectedItem_Account, Mode=Twoway}"
                   SelectedValuePath="AccountID"
                   Text="{Binding AccountName, Mode=Twoway}" />
+        <CheckBox Margin="4,4,4,4"
+                  VerticalAlignment="Center"
+                  Content="ID表示"
+                  Click="OnClick_ShowID"
+                  FontSize="14"
+                  IsChecked="{Binding ShowID, Mode=Twoway}" />
       </StackPanel>
       <Button Grid.Column="3"
               Margin="4,4,4,4"
@@ -76,8 +82,7 @@
                       Grid.Column="1"
                       Margin="2,2,2,2"
                       FontSize="14"
-                      SelectedDate="{Binding Source={x:Static System:DateTime.Today}, Mode=OneTime}"
-                      SelectedDateChanged="datePicker1_SelectedDateChanged" />
+                      SelectedDate="{Binding StartDate, Mode=Twoway}" />
           <TextBlock Grid.Column="2"
                      Margin="2,2,2,2"
                      VerticalAlignment="Center"
@@ -98,8 +103,7 @@
                       Grid.Column="1"
                       Margin="2,2,2,2"
                       FontSize="14"
-                      SelectedDate="{Binding Source={x:Static System:DateTime.Today}, Mode=OneTime}"
-                      SelectedDateChanged="datePicker1_SelectedDateChanged" />
+                      SelectedDate="{Binding EndDate, Mode=Twoway}" />
         </Grid>
         <Grid Grid.Row="3">
           <Grid.ColumnDefinitions>
@@ -130,7 +134,7 @@
                  Margin="2,2,2,2"
                  VerticalContentAlignment="Center"
                  FontFamily="ＭＳ ゴシック"
-                 FontSize="11.5"
+                 FontSize="11"
                  IsReadOnly="True"
                  Text="{Binding PlayerID, Mode=Twoway}" />
         <Grid Grid.Row="7">
@@ -162,23 +166,67 @@
                  Margin="2,2,2,2"
                  VerticalContentAlignment="Center"
                  FontFamily="ＭＳ ゴシック"
-                 FontSize="11.5"
+                 FontSize="11"
                  IsReadOnly="True"
                  Text="{Binding WorldID, Mode=Twoway}" />
-        <CheckBox Grid.Row="11"
-                  Margin="4,4,4,4"
-                  VerticalAlignment="Top"
-                  Content="ID表示"
-                  FontSize="14"
-                  IsChecked="{Binding ShowID, Mode=Twoway}" />
         <Button Grid.Row="11"
-                Margin="4,4,4,4"
                 Width="60"
+                Margin="4,4,4,4"
                 HorizontalAlignment="Right"
                 Click="OnClick_Search"
                 Content="検索"
                 FontSize="14" />
       </Grid>
+      <DataGrid x:Name="dataGrid"
+                Grid.Column="1"
+                AutoGenerateColumns="False"
+                VerticalScrollBarVisibility="Visible"
+                HorizontalScrollBarVisibility="Visible"
+                SelectionUnit="Cell"
+                SelectionMode="Single"
+                ItemsSource="{Binding JoinLeaveList}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Width="100"
+                              Binding="{Binding AccountID}"
+                              Header="アカウントID"
+                              IsReadOnly="True"
+                              Visibility="{Binding ShowIDText, Mode=Twoway}" />
+          <DataGridTextColumn Width="150"
+                              Binding="{Binding AccountName}"
+                              Header="アカウント名"
+                              IsReadOnly="True" />
+          <DataGridTextColumn Width="100"
+                              Binding="{Binding PlayerID}"
+                              Header="プレイヤーID"
+                              IsReadOnly="True"
+                              Visibility="{Binding ShowIDText, Mode=Twoway}" />
+          <DataGridTextColumn Width="200"
+                              Binding="{Binding PlayerName}"
+                              Header="プレイヤー名"
+                              IsReadOnly="True" />
+          <DataGridTextColumn Width="70"
+                              Binding="{Binding JoinLeave}"
+                              Header="Join/Leave"
+                              IsReadOnly="True" />
+          <DataGridTextColumn Width="100"
+                              Binding="{Binding WorldID}"
+                              Header="ワールドID"
+                              IsReadOnly="True"
+                              Visibility="{Binding ShowIDText, Mode=Twoway}" />
+          <DataGridTextColumn Width="400"
+                              Binding="{Binding WorldName}"
+                              Header="ワールド名"
+                              IsReadOnly="True" />
+          <DataGridTextColumn Width="80"
+                              Binding="{Binding LogDate}"
+                              Header="ログ日付"
+                              IsReadOnly="True" />
+          <DataGridTextColumn Width="80"
+                              Binding="{Binding LogTime}"
+                              Header="ログ時刻"
+                              IsReadOnly="True" />
+        </DataGrid.Columns>
+      </DataGrid>
     </Grid>
   </Grid>
 </Page>
